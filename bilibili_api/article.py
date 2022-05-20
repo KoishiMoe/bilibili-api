@@ -2,19 +2,19 @@
 专栏相关
 """
 
-from copy import copy
 import json
-from typing import List, overload
-from bilibili_api.utils.utils import get_api
-from bilibili_api.utils.Credential import Credential
 import re
+from copy import copy
+from typing import List, overload
+from urllib.parse import unquote
 
 import yaml
-from bilibili_api.utils.network import get_session, request
-from bilibili_api.exceptions.NetworkException import NetworkException, ApiException
 from bs4 import BeautifulSoup, element
-from datetime import datetime
-from urllib.parse import unquote
+
+from .exceptions.NetworkException import ApiException
+from .utils.Credential import Credential
+from .utils.network import get_session, request
+from .utils.utils import get_api
 
 API = get_api('article')
 
@@ -388,7 +388,7 @@ class Article:
         async with sess.get(f'https://www.bilibili.com/read/cv{self.cvid}') as resp:
             html = await resp.text()
 
-            match = re.search('window\.__INITIAL_STATE__=(\{.+?\});', html, re.I)
+            match = re.search('window\.__INITIAL_STATE__=(\{.+?});', html, re.I)
 
             if not match:
                 raise ApiException('找不到信息')

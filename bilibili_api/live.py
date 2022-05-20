@@ -3,25 +3,24 @@ bilibili_api.live
 
 直播相关
 """
+import asyncio
+import json
+import logging
+import struct
 import time
 from enum import Enum
-import logging
-import json
-import struct
-import base64
-import asyncio
 from typing import List
+
 import aiohttp
 import brotli
-
 from aiohttp.client_ws import ClientWebSocketResponse
 
+from .exceptions.LiveException import LiveException
+from .utils.AsyncEvent import AsyncEvent
 from .utils.Credential import Credential
+from .utils.Danmaku import Danmaku
 from .utils.network import get_session, request
 from .utils.utils import get_api
-from .utils.Danmaku import Danmaku
-from .utils.AsyncEvent import AsyncEvent
-from .exceptions.LiveException import LiveException
 
 API = get_api("live")
 

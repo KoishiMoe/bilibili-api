@@ -6,32 +6,27 @@ bilibili_api.video
 注意，同时存在 page_index 和 cid 的参数，两者至少提供一个。
 """
 
-from copy import copy
-from enum import Enum
-from typing import Coroutine
-import re
-import datetime
 import asyncio
-import aiohttp
-import logging
+import datetime
 import json
+import logging
+import re
 import struct
-import io
-import base64
+from enum import Enum
 from typing import List
 
-from .exceptions import VideoUploadException
-from .exceptions import ResponseException
-from .exceptions import NetworkException
-from .exceptions import ArgsException, DanmakuClosedException
+import aiohttp
 
-from .utils.Credential import Credential
-from .utils.aid_bvid_transformer import aid2bvid, bvid2aid
-from .utils.utils import get_api
-from .utils.network import request, get_session
-from .utils.Danmaku import Danmaku
-from .utils.BytesReader import BytesReader
+from .exceptions import ArgsException, DanmakuClosedException
+from .exceptions import NetworkException
+from .exceptions import ResponseException
 from .utils.AsyncEvent import AsyncEvent
+from .utils.BytesReader import BytesReader
+from .utils.Credential import Credential
+from .utils.Danmaku import Danmaku
+from .utils.aid_bvid_transformer import aid2bvid, bvid2aid
+from .utils.network import request, get_session
+from .utils.utils import get_api
 
 API = get_api("video")
 
@@ -75,7 +70,7 @@ class Video:
             bvid (str):   要设置的 bvid。
         """
         # 检查 bvid 是否有效
-        if not re.search("^BV[a-zA-Z0-9]{10}$", bvid):
+        if not re.search("^BV[a-zA-Z\d]{10}$", bvid):
             raise ArgsException(
                 "bvid 提供错误，必须是以 BV 开头的纯字母和数字组成的 12 位字符串（大小写敏感）。")
         self.__bvid = bvid
@@ -941,7 +936,7 @@ class Video:
         }
         return await request("POST", url=api["url"], data=data, credential=self.credential)
 
-    async def set_favorite(self, add_media_ids: List[int] = [], del_media_ids: List[int] = []):
+    async def set_favorite(self, add_media_ids=None, del_media_ids=None):
         """
         设置视频收藏状况。
 
@@ -952,6 +947,10 @@ class Video:
         Returns:
             dict: 调用 API 返回结果。
         """
+        if del_media_ids is None:
+            del_media_ids = []
+        if add_media_ids is None:
+            add_media_ids = []
         if len(add_media_ids) + len(del_media_ids) == 0:
             raise ArgsException(
                 "对收藏夹无修改。请至少提供 add_media_ids 和 del_media_ids 中的其中一个。")

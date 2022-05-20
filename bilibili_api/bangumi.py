@@ -154,7 +154,7 @@ async def get_episode_info(epid: int, credential: Credential = None):
 
         content = await resp.text()
 
-        pattern = re.compile(r"window.__INITIAL_STATE__=(\{.*?\});")
+        pattern = re.compile(r"window.__INITIAL_STATE__=(\{.*?});")
         match = re.search(pattern, content)
         if match is None:
             raise ApiException("未找到番剧信息")

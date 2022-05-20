@@ -3,7 +3,7 @@ bilibili_api.utils.Credential
 
 凭据类，用于各种请求操作的验证。
 """
-from bilibili_api.exceptions.CredentialNoBuvid3Exception import CredentialNoBuvid3Exception
+from ..exceptions.CredentialNoBuvid3Exception import CredentialNoBuvid3Exception
 from ..exceptions import CredentialNoBiliJctException, CredentialNoSessdataException
 
 

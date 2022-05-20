@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "bilibili-api"
+version = "10.0.0-lite"
+description = "Lite version of bilibili-api for Flandre"
+authors = ["MoyuScript <45550579+moyuscript@users.noreply.github.com>", "KoishiMoe <68314080+KoishiMoe@users.noreply.github.com>"]
+license = "GPL-3.0-or-later"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+urllib3 = "~=1.26.3"
+aiohttp = "^3.8.1"
+beautifulsoup4 = "~=4.9.3"
+brotli = "~=1.0.9"
+PyYAML = "^6.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
